@@ -1,0 +1,6 @@
+Isaiah Seaborne changelog
+10/21 I added a way to update, edit, and delete vendors thru a method. added a enum to purchaseorderstatusid. and added new tables
+to the model
+10/24 added views, functions, and stored procedures. Added code to show thru the console.
+10/31 made changes to linq file and modified methods to do math with conditions
+11/21 final project. used linq to sort and create lists
