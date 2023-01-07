@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SalesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="State" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Balance" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="SalesOrders" Relationship="Self.FK_SalesOrder_Customer" FromRole="Customer" ToRole="SalesOrder" />
+  </EntityType>
+  <EntityType Name="SalesOrder">
+    <Key>
+      <PropertyRef Name="SalesOrderNumber" />
+    </Key>
+    <Property Name="SalesOrderNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerId" Type="Int32" Nullable="false" />
+    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="OrderTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="OrderCost" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="GrossProfit" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="SalesStatusId" Type="SalesModel.SalesStatus" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_SalesOrder_Customer" FromRole="SalesOrder" ToRole="Customer" />
+    <NavigationProperty Name="SalesOrderParts" Relationship="SalesModel.FK_SalesOrderPart_SalesOrder" FromRole="SalesOrder" ToRole="SalesOrderPart" />
+    <NavigationProperty Name="Shipments" Relationship="SalesModel.FK_Shipment_Shipment" FromRole="SalesOrder" ToRole="Shipment" />
+  </EntityType>
+  <Association Name="FK_SalesOrder_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="SalesOrder">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="SalesOrders" EntityType="Self.SalesOrder" />
+    <AssociationSet Name="FK_SalesOrder_Customer" Association="Self.FK_SalesOrder_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="SalesOrder" EntitySet="SalesOrders" />
+    </AssociationSet>
+    <EntitySet Name="Parts" EntityType="SalesModel.Part" />
+    <EntitySet Name="SalesOrderParts" EntityType="SalesModel.SalesOrderPart" />
+    <EntitySet Name="SalesReturns" EntityType="SalesModel.SalesReturn" />
+    <EntitySet Name="Shipments" EntityType="SalesModel.Shipment" />
+    <EntitySet Name="ShipmentParts" EntityType="SalesModel.ShipmentPart" />
+    <AssociationSet Name="FK_SalesOrderPart_Part" Association="SalesModel.FK_SalesOrderPart_Part">
+      <End Role="Part" EntitySet="Parts" />
+      <End Role="SalesOrderPart" EntitySet="SalesOrderParts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesOrderPart_SalesOrder" Association="SalesModel.FK_SalesOrderPart_SalesOrder">
+      <End Role="SalesOrder" EntitySet="SalesOrders" />
+      <End Role="SalesOrderPart" EntitySet="SalesOrderParts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Shipment_Shipment" Association="SalesModel.FK_Shipment_Shipment">
+      <End Role="SalesOrder" EntitySet="SalesOrders" />
+      <End Role="Shipment" EntitySet="Shipments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShipmentPart_SalesOrderPart" Association="SalesModel.FK_ShipmentPart_SalesOrderPart">
+      <End Role="SalesOrderPart" EntitySet="SalesOrderParts" />
+      <End Role="ShipmentPart" EntitySet="ShipmentParts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Return_ShipmentPart" Association="SalesModel.FK_Return_ShipmentPart">
+      <End Role="ShipmentPart" EntitySet="ShipmentParts" />
+      <End Role="SalesReturn" EntitySet="SalesReturns" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShipmentPart_Shipment" Association="SalesModel.FK_ShipmentPart_Shipment">
+      <End Role="Shipment" EntitySet="Shipments" />
+      <End Role="ShipmentPart" EntitySet="ShipmentParts" />
+    </AssociationSet>
+    <EntitySet Name="SoSummaries" EntityType="SalesModel.SoSummary" />
+    <FunctionImport Name="SoDetail" IsComposable="true" ReturnType="Collection(SalesModel.SoDetail_Result)">
+      <Parameter Name="SalesOrderNum" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SOP">
+      <Parameter Name="SalesOrderNumber" Mode="In" Type="Int32" />
+      <Parameter Name="OrderTotal" Mode="InOut" Type="Decimal" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Part">
+    <Key>
+      <PropertyRef Name="PartID" />
+    </Key>
+    <Property Name="PartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="QuantityOnHand" Type="Int32" Nullable="false" />
+    <Property Name="CurrentValue" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="TerminationDate" Type="DateTime" Precision="3" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="SalesOrderParts" Relationship="SalesModel.FK_SalesOrderPart_Part" FromRole="Part" ToRole="SalesOrderPart" />
+  </EntityType>
+  <EntityType Name="SalesOrderPart">
+    <Key>
+      <PropertyRef Name="SalesOrderPartId" />
+    </Key>
+    <Property Name="SalesOrderPartId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SalesOrderNumber" Type="Int32" Nullable="false" />
+    <Property Name="PartId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="ExtendedPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UnitCost" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="ExtendedCost" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Part" Relationship="SalesModel.FK_SalesOrderPart_Part" FromRole="SalesOrderPart" ToRole="Part" />
+    <NavigationProperty Name="SalesOrder" Relationship="SalesModel.FK_SalesOrderPart_SalesOrder" FromRole="SalesOrderPart" ToRole="SalesOrder" />
+    <NavigationProperty Name="ShipmentParts" Relationship="SalesModel.FK_ShipmentPart_SalesOrderPart" FromRole="SalesOrderPart" ToRole="ShipmentPart" />
+  </EntityType>
+  <EntityType Name="SalesReturn">
+    <Key>
+      <PropertyRef Name="SalesReturnId" />
+    </Key>
+    <Property Name="SalesReturnId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ShipmentPartId" Type="Int32" Nullable="false" />
+    <Property Name="Reason" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ReturnDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="ShipmentPart" Relationship="SalesModel.FK_Return_ShipmentPart" FromRole="SalesReturn" ToRole="ShipmentPart" />
+  </EntityType>
+  <EntityType Name="Shipment">
+    <Key>
+      <PropertyRef Name="ShipmentId" />
+    </Key>
+    <Property Name="ShipmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ShipmentDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="SalesOrderNumber" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="SalesOrder" Relationship="SalesModel.FK_Shipment_Shipment" FromRole="Shipment" ToRole="SalesOrder" />
+    <NavigationProperty Name="ShipmentParts" Relationship="SalesModel.FK_ShipmentPart_Shipment" FromRole="Shipment" ToRole="ShipmentPart" />
+  </EntityType>
+  <EntityType Name="ShipmentPart">
+    <Key>
+      <PropertyRef Name="ShipmentPartId" />
+    </Key>
+    <Property Name="ShipmentPartId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ShipmentId" Type="Int32" Nullable="false" />
+    <Property Name="SalesOrderPartId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="UnitCost" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="ExtendedCost" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="SalesOrderPart" Relationship="SalesModel.FK_ShipmentPart_SalesOrderPart" FromRole="ShipmentPart" ToRole="SalesOrderPart" />
+    <NavigationProperty Name="SalesReturns" Relationship="SalesModel.FK_Return_ShipmentPart" FromRole="ShipmentPart" ToRole="SalesReturn" />
+    <NavigationProperty Name="Shipment" Relationship="SalesModel.FK_ShipmentPart_Shipment" FromRole="ShipmentPart" ToRole="Shipment" />
+  </EntityType>
+  <Association Name="FK_SalesOrderPart_Part">
+    <End Type="SalesModel.Part" Role="Part" Multiplicity="1" />
+    <End Type="SalesModel.SalesOrderPart" Role="SalesOrderPart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Part">
+        <PropertyRef Name="PartID" />
+      </Principal>
+      <Dependent Role="SalesOrderPart">
+        <PropertyRef Name="PartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesOrderPart_SalesOrder">
+    <End Type="SalesModel.SalesOrder" Role="SalesOrder" Multiplicity="1" />
+    <End Type="SalesModel.SalesOrderPart" Role="SalesOrderPart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesOrder">
+        <PropertyRef Name="SalesOrderNumber" />
+      </Principal>
+      <Dependent Role="SalesOrderPart">
+        <PropertyRef Name="SalesOrderNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Shipment_Shipment">
+    <End Type="SalesModel.SalesOrder" Role="SalesOrder" Multiplicity="1" />
+    <End Type="SalesModel.Shipment" Role="Shipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesOrder">
+        <PropertyRef Name="SalesOrderNumber" />
+      </Principal>
+      <Dependent Role="Shipment">
+        <PropertyRef Name="SalesOrderNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShipmentPart_SalesOrderPart">
+    <End Type="SalesModel.SalesOrderPart" Role="SalesOrderPart" Multiplicity="1" />
+    <End Type="SalesModel.ShipmentPart" Role="ShipmentPart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesOrderPart">
+        <PropertyRef Name="SalesOrderPartId" />
+      </Principal>
+      <Dependent Role="ShipmentPart">
+        <PropertyRef Name="SalesOrderPartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Return_ShipmentPart">
+    <End Type="SalesModel.ShipmentPart" Role="ShipmentPart" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SalesModel.SalesReturn" Role="SalesReturn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShipmentPart">
+        <PropertyRef Name="ShipmentPartId" />
+      </Principal>
+      <Dependent Role="SalesReturn">
+        <PropertyRef Name="ShipmentPartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShipmentPart_Shipment">
+    <End Type="SalesModel.Shipment" Role="Shipment" Multiplicity="1" />
+    <End Type="SalesModel.ShipmentPart" Role="ShipmentPart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Shipment">
+        <PropertyRef Name="ShipmentId" />
+      </Principal>
+      <Dependent Role="ShipmentPart">
+        <PropertyRef Name="ShipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EnumType Name="SalesStatus">
+    <Member Name="Open" Value="1" />
+    <Member Name="Closed" Value="2" />
+    <Member Name="Canceled" Value="3" />
+  </EnumType>
+  <EntityType Name="SoSummary">
+    <Key>
+      <PropertyRef Name="SalesOrderNumber" />
+      <PropertyRef Name="OrderDate" />
+      <PropertyRef Name="Customer" />
+    </Key>
+    <Property Name="SalesOrderNumber" Type="Int32" Nullable="false" />
+    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Customer" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="false" />
+    <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" />
+  </EntityType>
+  <ComplexType Name="SoDetail_Result">
+    <Property Type="Int32" Name="SalesOrderNumber" Nullable="false" />
+    <Property Type="DateTime" Name="OrderDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Customer" Nullable="false" MaxLength="101" />
+    <Property Type="String" Name="Part" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <Property Type="Decimal" Name="OrderTotal" Nullable="true" Precision="19" Scale="4" />
+  </ComplexType>
+</Schema>

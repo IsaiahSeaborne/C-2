@@ -1,0 +1,12 @@
+C:\Users\Isaiah\Desktop\C#2\Sales\bin\Debug\Sales.dll.config
+C:\Users\Isaiah\Desktop\C#2\Sales\bin\Debug\Sales.dll
+C:\Users\Isaiah\Desktop\C#2\Sales\bin\Debug\Sales.pdb
+C:\Users\Isaiah\Desktop\C#2\Sales\bin\Debug\EntityFramework.dll
+C:\Users\Isaiah\Desktop\C#2\Sales\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Isaiah\Desktop\C#2\Sales\bin\Debug\EntityFramework.xml
+C:\Users\Isaiah\Desktop\C#2\Sales\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Isaiah\Desktop\C#2\Sales\obj\Debug\Sales.csproj.AssemblyReference.cache
+C:\Users\Isaiah\Desktop\C#2\Sales\obj\Debug\Sales.csproj.CoreCompileInputs.cache
+C:\Users\Isaiah\Desktop\C#2\Sales\obj\Debug\Sales.csproj.CopyComplete
+C:\Users\Isaiah\Desktop\C#2\Sales\obj\Debug\Sales.dll
+C:\Users\Isaiah\Desktop\C#2\Sales\obj\Debug\Sales.pdb

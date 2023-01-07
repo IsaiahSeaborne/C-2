@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SalesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="City" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="State" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="Balance" Type="money" />
+  </EntityType>
+  <EntityType Name="Part">
+    <Key>
+      <PropertyRef Name="PartID" />
+    </Key>
+    <Property Name="PartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="QuantityOnHand" Type="int" Nullable="false" />
+    <Property Name="CurrentValue" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="TerminationDate" Type="datetime" />
+    <Property Name="Price" Type="money" />
+  </EntityType>
+  <EntityType Name="SalesOrder">
+    <Key>
+      <PropertyRef Name="SalesOrderNumber" />
+    </Key>
+    <Property Name="SalesOrderNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="OrderDate" Type="datetime" Nullable="false" />
+    <Property Name="OrderTotal" Type="money" Nullable="false" />
+    <Property Name="OrderCost" Type="money" />
+    <Property Name="GrossProfit" Type="money" />
+    <Property Name="SalesStatusId" Type="int" />
+  </EntityType>
+  <EntityType Name="SalesOrderPart">
+    <Key>
+      <PropertyRef Name="SalesOrderPartId" />
+    </Key>
+    <Property Name="SalesOrderPartId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SalesOrderNumber" Type="int" Nullable="false" />
+    <Property Name="PartId" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="UnitPrice" Type="money" Nullable="false" />
+    <Property Name="ExtendedPrice" Type="money" />
+    <Property Name="UnitCost" Type="money" />
+    <Property Name="ExtendedCost" Type="money" />
+  </EntityType>
+  <EntityType Name="SalesReturn">
+    <Key>
+      <PropertyRef Name="SalesReturnId" />
+    </Key>
+    <Property Name="SalesReturnId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShipmentPartId" Type="int" Nullable="false" />
+    <Property Name="Reason" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ReturnDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Shipment">
+    <Key>
+      <PropertyRef Name="ShipmentId" />
+    </Key>
+    <Property Name="ShipmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShipmentDate" Type="datetime" Nullable="false" />
+    <Property Name="SalesOrderNumber" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ShipmentPart">
+    <Key>
+      <PropertyRef Name="ShipmentPartId" />
+    </Key>
+    <Property Name="ShipmentPartId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShipmentId" Type="int" Nullable="false" />
+    <Property Name="SalesOrderPartId" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="UnitCost" Type="money" />
+    <Property Name="ExtendedCost" Type="money" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'ITP236-21.dbo.SoSummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SoSummary">
+    <Key>
+      <PropertyRef Name="SalesOrderNumber" />
+      <PropertyRef Name="OrderDate" />
+      <PropertyRef Name="Customer" />
+    </Key>
+    <Property Name="SalesOrderNumber" Type="int" Nullable="false" />
+    <Property Name="OrderDate" Type="datetime" Nullable="false" />
+    <Property Name="Customer" Type="varchar" MaxLength="101" Nullable="false" />
+    <Property Name="TotalAmount" Type="money" />
+  </EntityType>
+  <Association Name="FK_Return_ShipmentPart">
+    <End Role="ShipmentPart" Type="Self.ShipmentPart" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SalesReturn" Type="Self.SalesReturn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShipmentPart">
+        <PropertyRef Name="ShipmentPartId" />
+      </Principal>
+      <Dependent Role="SalesReturn">
+        <PropertyRef Name="ShipmentPartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesOrder_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="SalesOrder">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesOrderPart_Part">
+    <End Role="Part" Type="Self.Part" Multiplicity="1" />
+    <End Role="SalesOrderPart" Type="Self.SalesOrderPart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Part">
+        <PropertyRef Name="PartID" />
+      </Principal>
+      <Dependent Role="SalesOrderPart">
+        <PropertyRef Name="PartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesOrderPart_SalesOrder">
+    <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="1" />
+    <End Role="SalesOrderPart" Type="Self.SalesOrderPart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesOrder">
+        <PropertyRef Name="SalesOrderNumber" />
+      </Principal>
+      <Dependent Role="SalesOrderPart">
+        <PropertyRef Name="SalesOrderNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Shipment_Shipment">
+    <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="1" />
+    <End Role="Shipment" Type="Self.Shipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesOrder">
+        <PropertyRef Name="SalesOrderNumber" />
+      </Principal>
+      <Dependent Role="Shipment">
+        <PropertyRef Name="SalesOrderNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShipmentPart_SalesOrderPart">
+    <End Role="SalesOrderPart" Type="Self.SalesOrderPart" Multiplicity="1" />
+    <End Role="ShipmentPart" Type="Self.ShipmentPart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesOrderPart">
+        <PropertyRef Name="SalesOrderPartId" />
+      </Principal>
+      <Dependent Role="ShipmentPart">
+        <PropertyRef Name="SalesOrderPartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShipmentPart_Shipment">
+    <End Role="Shipment" Type="Self.Shipment" Multiplicity="1" />
+    <End Role="ShipmentPart" Type="Self.ShipmentPart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Shipment">
+        <PropertyRef Name="ShipmentId" />
+      </Principal>
+      <Dependent Role="ShipmentPart">
+        <PropertyRef Name="ShipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="SoDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SalesOrderNum" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="SalesOrderNumber" Type="int" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" Nullable="false" />
+          <Property Name="Customer" Type="varchar" MaxLength="101" Nullable="false" />
+          <Property Name="Part" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="OrderTotal" Type="money" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="SOP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SalesOrderNumber" Type="int" Mode="In" />
+    <Parameter Name="OrderTotal" Type="money" Mode="InOut" />
+  </Function>
+  <EntityContainer Name="SalesModelStoreContainer">
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Part" EntityType="Self.Part" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalesOrder" EntityType="Self.SalesOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalesOrderPart" EntityType="Self.SalesOrderPart" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalesReturn" EntityType="Self.SalesReturn" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Shipment" EntityType="Self.Shipment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShipmentPart" EntityType="Self.ShipmentPart" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SoSummary" EntityType="Self.SoSummary" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SoSummary].[SalesOrderNumber] AS [SalesOrderNumber], 
+    [SoSummary].[OrderDate] AS [OrderDate], 
+    [SoSummary].[Customer] AS [Customer], 
+    [SoSummary].[TotalAmount] AS [TotalAmount]
+    FROM [dbo].[SoSummary] AS [SoSummary]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Return_ShipmentPart" Association="Self.FK_Return_ShipmentPart">
+      <End Role="ShipmentPart" EntitySet="ShipmentPart" />
+      <End Role="SalesReturn" EntitySet="SalesReturn" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesOrder_Customer" Association="Self.FK_SalesOrder_Customer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="SalesOrder" EntitySet="SalesOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesOrderPart_Part" Association="Self.FK_SalesOrderPart_Part">
+      <End Role="Part" EntitySet="Part" />
+      <End Role="SalesOrderPart" EntitySet="SalesOrderPart" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesOrderPart_SalesOrder" Association="Self.FK_SalesOrderPart_SalesOrder">
+      <End Role="SalesOrder" EntitySet="SalesOrder" />
+      <End Role="SalesOrderPart" EntitySet="SalesOrderPart" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Shipment_Shipment" Association="Self.FK_Shipment_Shipment">
+      <End Role="SalesOrder" EntitySet="SalesOrder" />
+      <End Role="Shipment" EntitySet="Shipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShipmentPart_SalesOrderPart" Association="Self.FK_ShipmentPart_SalesOrderPart">
+      <End Role="SalesOrderPart" EntitySet="SalesOrderPart" />
+      <End Role="ShipmentPart" EntitySet="ShipmentPart" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShipmentPart_Shipment" Association="Self.FK_ShipmentPart_Shipment">
+      <End Role="Shipment" EntitySet="Shipment" />
+      <End Role="ShipmentPart" EntitySet="ShipmentPart" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

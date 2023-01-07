@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SalesModelStoreContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="SalesModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesOrders">
+      <EntityTypeMapping TypeName="SalesModel.SalesOrder">
+        <MappingFragment StoreEntitySet="SalesOrder">
+          <ScalarProperty Name="SalesOrderNumber" ColumnName="SalesOrderNumber" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderTotal" ColumnName="OrderTotal" />
+          <ScalarProperty Name="OrderCost" ColumnName="OrderCost" />
+          <ScalarProperty Name="GrossProfit" ColumnName="GrossProfit" />
+          <ScalarProperty Name="SalesStatusId" ColumnName="SalesStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Parts">
+      <EntityTypeMapping TypeName="SalesModel.Part">
+        <MappingFragment StoreEntitySet="Part">
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="TerminationDate" ColumnName="TerminationDate" />
+          <ScalarProperty Name="CurrentValue" ColumnName="CurrentValue" />
+          <ScalarProperty Name="QuantityOnHand" ColumnName="QuantityOnHand" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PartID" ColumnName="PartID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesOrderParts">
+      <EntityTypeMapping TypeName="SalesModel.SalesOrderPart">
+        <MappingFragment StoreEntitySet="SalesOrderPart">
+          <ScalarProperty Name="ExtendedCost" ColumnName="ExtendedCost" />
+          <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+          <ScalarProperty Name="ExtendedPrice" ColumnName="ExtendedPrice" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="PartId" ColumnName="PartId" />
+          <ScalarProperty Name="SalesOrderNumber" ColumnName="SalesOrderNumber" />
+          <ScalarProperty Name="SalesOrderPartId" ColumnName="SalesOrderPartId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesReturns">
+      <EntityTypeMapping TypeName="SalesModel.SalesReturn">
+        <MappingFragment StoreEntitySet="SalesReturn">
+          <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+          <ScalarProperty Name="ShipmentPartId" ColumnName="ShipmentPartId" />
+          <ScalarProperty Name="SalesReturnId" ColumnName="SalesReturnId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Shipments">
+      <EntityTypeMapping TypeName="SalesModel.Shipment">
+        <MappingFragment StoreEntitySet="Shipment">
+          <ScalarProperty Name="SalesOrderNumber" ColumnName="SalesOrderNumber" />
+          <ScalarProperty Name="ShipmentDate" ColumnName="ShipmentDate" />
+          <ScalarProperty Name="ShipmentId" ColumnName="ShipmentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShipmentParts">
+      <EntityTypeMapping TypeName="SalesModel.ShipmentPart">
+        <MappingFragment StoreEntitySet="ShipmentPart">
+          <ScalarProperty Name="ExtendedCost" ColumnName="ExtendedCost" />
+          <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="SalesOrderPartId" ColumnName="SalesOrderPartId" />
+          <ScalarProperty Name="ShipmentId" ColumnName="ShipmentId" />
+          <ScalarProperty Name="ShipmentPartId" ColumnName="ShipmentPartId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SoSummaries">
+      <EntityTypeMapping TypeName="SalesModel.SoSummary">
+        <MappingFragment StoreEntitySet="SoSummary">
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="SalesOrderNumber" ColumnName="SalesOrderNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SoDetail" FunctionName="SalesModel.Store.SoDetail">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SalesModel.SoDetail_Result">
+          <ScalarProperty Name="SalesOrderNumber" ColumnName="SalesOrderNumber" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="Part" ColumnName="Part" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="OrderTotal" ColumnName="OrderTotal" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SOP" FunctionName="SalesModel.Store.SOP" />
+  </EntityContainerMapping>
+</Mapping>
