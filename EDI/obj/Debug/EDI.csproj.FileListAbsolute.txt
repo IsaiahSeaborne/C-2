@@ -1,0 +1,6 @@
+C:\Users\Isaiah\Desktop\C#2\EDI\obj\Debug\EDI.csproj.AssemblyReference.cache
+C:\Users\Isaiah\Desktop\C#2\EDI\obj\Debug\EDI.csproj.CoreCompileInputs.cache
+C:\Users\Isaiah\Desktop\C#2\EDI\bin\Debug\EDI.dll
+C:\Users\Isaiah\Desktop\C#2\EDI\bin\Debug\EDI.pdb
+C:\Users\Isaiah\Desktop\C#2\EDI\obj\Debug\EDI.dll
+C:\Users\Isaiah\Desktop\C#2\EDI\obj\Debug\EDI.pdb
