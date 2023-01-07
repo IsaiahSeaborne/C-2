@@ -1,0 +1,15 @@
+C:\Users\Isaiah\Desktop\C#2\TestConsole\bin\Debug\TestConsole.exe.config
+C:\Users\Isaiah\Desktop\C#2\TestConsole\bin\Debug\TestConsole.exe
+C:\Users\Isaiah\Desktop\C#2\TestConsole\bin\Debug\TestConsole.pdb
+C:\Users\Isaiah\Desktop\C#2\TestConsole\obj\Debug\TestConsole.csproj.AssemblyReference.cache
+C:\Users\Isaiah\Desktop\C#2\TestConsole\obj\Debug\TestConsole.csproj.CoreCompileInputs.cache
+C:\Users\Isaiah\Desktop\C#2\TestConsole\obj\Debug\TestConsole.csproj.CopyComplete
+C:\Users\Isaiah\Desktop\C#2\TestConsole\obj\Debug\TestConsole.exe
+C:\Users\Isaiah\Desktop\C#2\TestConsole\obj\Debug\TestConsole.pdb
+C:\Users\Isaiah\Desktop\C#2\TestConsole\bin\Debug\EntityFramework.dll
+C:\Users\Isaiah\Desktop\C#2\TestConsole\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Isaiah\Desktop\C#2\TestConsole\bin\Debug\EntityFramework.xml
+C:\Users\Isaiah\Desktop\C#2\TestConsole\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Isaiah\Desktop\C#2\TestConsole\bin\Debug\Purchasing.dll
+C:\Users\Isaiah\Desktop\C#2\TestConsole\bin\Debug\Purchasing.pdb
+C:\Users\Isaiah\Desktop\C#2\TestConsole\bin\Debug\Purchasing.dll.config
