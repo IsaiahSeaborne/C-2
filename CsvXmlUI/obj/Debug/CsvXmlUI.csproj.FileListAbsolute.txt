@@ -1,0 +1,7 @@
+C:\Users\Isaiah\Desktop\C#2\CsvXmlUI\bin\Debug\CsvXmlUI.exe.config
+C:\Users\Isaiah\Desktop\C#2\CsvXmlUI\bin\Debug\CsvXmlUI.exe
+C:\Users\Isaiah\Desktop\C#2\CsvXmlUI\bin\Debug\CsvXmlUI.pdb
+C:\Users\Isaiah\Desktop\C#2\CsvXmlUI\obj\Debug\CsvXmlUI.csproj.AssemblyReference.cache
+C:\Users\Isaiah\Desktop\C#2\CsvXmlUI\obj\Debug\CsvXmlUI.csproj.CoreCompileInputs.cache
+C:\Users\Isaiah\Desktop\C#2\CsvXmlUI\obj\Debug\CsvXmlUI.exe
+C:\Users\Isaiah\Desktop\C#2\CsvXmlUI\obj\Debug\CsvXmlUI.pdb
