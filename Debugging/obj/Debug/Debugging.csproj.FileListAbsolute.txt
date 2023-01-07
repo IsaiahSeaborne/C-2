@@ -1,0 +1,6 @@
+C:\Users\Isaiah\Desktop\C#2\Debugging\bin\Debug\Debugging.dll
+C:\Users\Isaiah\Desktop\C#2\Debugging\bin\Debug\Debugging.pdb
+C:\Users\Isaiah\Desktop\C#2\Debugging\obj\Debug\Debugging.csproj.AssemblyReference.cache
+C:\Users\Isaiah\Desktop\C#2\Debugging\obj\Debug\Debugging.csproj.CoreCompileInputs.cache
+C:\Users\Isaiah\Desktop\C#2\Debugging\obj\Debug\Debugging.dll
+C:\Users\Isaiah\Desktop\C#2\Debugging\obj\Debug\Debugging.pdb
