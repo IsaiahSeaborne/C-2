@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PurchasingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="PurchaseOrder">
+    <Key>
+      <PropertyRef Name="PurchaseOrderId" />
+    </Key>
+    <Property Name="PurchaseOrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PODate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="VendorId" Type="Int32" Nullable="false" />
+    <Property Name="ReceivedDate" Type="DateTime" Precision="0" />
+    <Property Name="PurchaseOrderStatusID" Type="PurchasingModel.POSIStatus" />
+    <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Vendor" Relationship="Self.FK_PurchaseOrder_Vendor" FromRole="PurchaseOrder" ToRole="Vendor" />
+    <NavigationProperty Name="PurchaseOrderParts" Relationship="PurchasingModel.FK_PurchaseOrderPart_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrderPart" />
+  </EntityType>
+  <EntityType Name="Vendor">
+    <Key>
+      <PropertyRef Name="VendorId" />
+    </Key>
+    <Property Name="VendorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PurchaseOrder_Vendor" FromRole="Vendor" ToRole="PurchaseOrder" />
+  </EntityType>
+  <Association Name="FK_PurchaseOrder_Vendor">
+    <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+    <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vendor">
+        <PropertyRef Name="VendorId" />
+      </Principal>
+      <Dependent Role="PurchaseOrder">
+        <PropertyRef Name="VendorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PurchasingEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrder" />
+    <EntitySet Name="Vendors" EntityType="Self.Vendor" />
+    <AssociationSet Name="FK_PurchaseOrder_Vendor" Association="Self.FK_PurchaseOrder_Vendor">
+      <End Role="Vendor" EntitySet="Vendors" />
+      <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+    </AssociationSet>
+    <EntitySet Name="Parts" EntityType="PurchasingModel.Part" />
+    <EntitySet Name="PurchaseOrderParts" EntityType="PurchasingModel.PurchaseOrderPart" />
+    <EntitySet Name="Receipts" EntityType="PurchasingModel.Receipt" />
+    <EntitySet Name="Spoilages" EntityType="PurchasingModel.Spoilage" />
+    <AssociationSet Name="FK_PurchaseOrderPart_Part" Association="PurchasingModel.FK_PurchaseOrderPart_Part">
+      <End Role="Part" EntitySet="Parts" />
+      <End Role="PurchaseOrderPart" EntitySet="PurchaseOrderParts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Spoilage_Part" Association="PurchasingModel.FK_Spoilage_Part">
+      <End Role="Part" EntitySet="Parts" />
+      <End Role="Spoilage" EntitySet="Spoilages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseOrderPart_PurchaseOrder" Association="PurchasingModel.FK_PurchaseOrderPart_PurchaseOrder">
+      <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+      <End Role="PurchaseOrderPart" EntitySet="PurchaseOrderParts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Receipt_PurchaseOrderPart" Association="PurchasingModel.FK_Receipt_PurchaseOrderPart">
+      <End Role="PurchaseOrderPart" EntitySet="PurchaseOrderParts" />
+      <End Role="Receipt" EntitySet="Receipts" />
+    </AssociationSet>
+    <EntitySet Name="PoSummaries" EntityType="PurchasingModel.PoSummary" />
+    <FunctionImport Name="PoDetail" IsComposable="true" ReturnType="Collection(PurchasingModel.PoDetail_Result)">
+      <Parameter Name="PurchaseOrderId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="POP">
+      <Parameter Name="PurchaseOrderId" Mode="In" Type="Int32" />
+      <Parameter Name="Amount" Mode="InOut" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="VendorPurchase" IsComposable="true" ReturnType="Collection(PurchasingModel.VendorPurchase_Result)">
+      <Parameter Name="VendorId" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Part">
+    <Key>
+      <PropertyRef Name="PartID" />
+    </Key>
+    <Property Name="PartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="QuantityOnHand" Type="Int32" Nullable="false" />
+    <Property Name="CurrentValue" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="TerminationDate" Type="DateTime" Precision="3" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="PurchaseOrderParts" Relationship="PurchasingModel.FK_PurchaseOrderPart_Part" FromRole="Part" ToRole="PurchaseOrderPart" />
+    <NavigationProperty Name="Spoilages" Relationship="PurchasingModel.FK_Spoilage_Part" FromRole="Part" ToRole="Spoilage" />
+  </EntityType>
+  <EntityType Name="PurchaseOrderPart">
+    <Key>
+      <PropertyRef Name="PurchaseOrderPartId" />
+    </Key>
+    <Property Name="PurchaseOrderPartId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PurchaseOrderId" Type="Int32" Nullable="false" />
+    <Property Name="PartId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="ExtendedCost" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Part" Relationship="PurchasingModel.FK_PurchaseOrderPart_Part" FromRole="PurchaseOrderPart" ToRole="Part" />
+    <NavigationProperty Name="PurchaseOrder" Relationship="PurchasingModel.FK_PurchaseOrderPart_PurchaseOrder" FromRole="PurchaseOrderPart" ToRole="PurchaseOrder" />
+    <NavigationProperty Name="Receipts" Relationship="PurchasingModel.FK_Receipt_PurchaseOrderPart" FromRole="PurchaseOrderPart" ToRole="Receipt" />
+  </EntityType>
+  <EntityType Name="Receipt">
+    <Key>
+      <PropertyRef Name="ReceiptID" />
+    </Key>
+    <Property Name="ReceiptID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ReceiptDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="TotalCost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="ShippingAndHandling" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="PurchaseOrderPartId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="PurchaseOrderPart" Relationship="PurchasingModel.FK_Receipt_PurchaseOrderPart" FromRole="Receipt" ToRole="PurchaseOrderPart" />
+  </EntityType>
+  <EntityType Name="Spoilage">
+    <Key>
+      <PropertyRef Name="SpoilageID" />
+    </Key>
+    <Property Name="SpoilageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SpoilageDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PartID" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="UnitCost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="ExtendedCost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <NavigationProperty Name="Part" Relationship="PurchasingModel.FK_Spoilage_Part" FromRole="Spoilage" ToRole="Part" />
+  </EntityType>
+  <Association Name="FK_PurchaseOrderPart_Part">
+    <End Type="PurchasingModel.Part" Role="Part" Multiplicity="1" />
+    <End Type="PurchasingModel.PurchaseOrderPart" Role="PurchaseOrderPart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Part">
+        <PropertyRef Name="PartID" />
+      </Principal>
+      <Dependent Role="PurchaseOrderPart">
+        <PropertyRef Name="PartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Spoilage_Part">
+    <End Type="PurchasingModel.Part" Role="Part" Multiplicity="1" />
+    <End Type="PurchasingModel.Spoilage" Role="Spoilage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Part">
+        <PropertyRef Name="PartID" />
+      </Principal>
+      <Dependent Role="Spoilage">
+        <PropertyRef Name="PartID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseOrderPart_PurchaseOrder">
+    <End Type="PurchasingModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="1" />
+    <End Type="PurchasingModel.PurchaseOrderPart" Role="PurchaseOrderPart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PurchaseOrder">
+        <PropertyRef Name="PurchaseOrderId" />
+      </Principal>
+      <Dependent Role="PurchaseOrderPart">
+        <PropertyRef Name="PurchaseOrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Receipt_PurchaseOrderPart">
+    <End Type="PurchasingModel.PurchaseOrderPart" Role="PurchaseOrderPart" Multiplicity="1" />
+    <End Type="PurchasingModel.Receipt" Role="Receipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PurchaseOrderPart">
+        <PropertyRef Name="PurchaseOrderPartId" />
+      </Principal>
+      <Dependent Role="Receipt">
+        <PropertyRef Name="PurchaseOrderPartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EnumType Name="POSIStatus">
+    <Member Name="Open" Value="1" />
+    <Member Name="Closed" Value="2" />
+    <Member Name="Canceled" Value="3" />
+  </EnumType>
+  <EntityType Name="PoSummary">
+    <Key>
+      <PropertyRef Name="PurchaseOrderId" />
+      <PropertyRef Name="PODate" />
+      <PropertyRef Name="Vendor" />
+    </Key>
+    <Property Name="PurchaseOrderId" Type="Int32" Nullable="false" />
+    <Property Name="PODate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Vendor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" />
+  </EntityType>
+  <ComplexType Name="PoDetail_Result">
+    <Property Type="Int32" Name="PurchaseOrderId" Nullable="false" />
+    <Property Type="DateTime" Name="PODate" Nullable="false" Precision="10" />
+    <Property Type="String" Name="Vendor" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Part" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <Property Type="Decimal" Name="Value" Nullable="true" Precision="19" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="VendorPurchase_Result">
+    <Property Type="Int32" Name="VendorId" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="TotalPurchases" Nullable="true" Precision="19" Scale="4" />
+  </ComplexType>
+</Schema>

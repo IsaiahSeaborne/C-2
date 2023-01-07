@@ -1,0 +1,12 @@
+C:\Users\Isaiah\Desktop\C#2\Purchasing\bin\Debug\Purchasing.dll.config
+C:\Users\Isaiah\Desktop\C#2\Purchasing\bin\Debug\Purchasing.dll
+C:\Users\Isaiah\Desktop\C#2\Purchasing\bin\Debug\Purchasing.pdb
+C:\Users\Isaiah\Desktop\C#2\Purchasing\bin\Debug\EntityFramework.dll
+C:\Users\Isaiah\Desktop\C#2\Purchasing\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Isaiah\Desktop\C#2\Purchasing\bin\Debug\EntityFramework.xml
+C:\Users\Isaiah\Desktop\C#2\Purchasing\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Isaiah\Desktop\C#2\Purchasing\obj\Debug\Purchasing.csproj.AssemblyReference.cache
+C:\Users\Isaiah\Desktop\C#2\Purchasing\obj\Debug\Purchasing.csproj.CoreCompileInputs.cache
+C:\Users\Isaiah\Desktop\C#2\Purchasing\obj\Debug\Purchasing.csproj.CopyComplete
+C:\Users\Isaiah\Desktop\C#2\Purchasing\obj\Debug\Purchasing.dll
+C:\Users\Isaiah\Desktop\C#2\Purchasing\obj\Debug\Purchasing.pdb
