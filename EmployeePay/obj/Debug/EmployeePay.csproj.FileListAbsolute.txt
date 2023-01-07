@@ -1,0 +1,6 @@
+C:\Users\Isaiah\Desktop\C#2\EmployeePay\bin\Debug\EmployeePay.dll
+C:\Users\Isaiah\Desktop\C#2\EmployeePay\bin\Debug\EmployeePay.pdb
+C:\Users\Isaiah\Desktop\C#2\EmployeePay\obj\Debug\EmployeePay.csproj.AssemblyReference.cache
+C:\Users\Isaiah\Desktop\C#2\EmployeePay\obj\Debug\EmployeePay.csproj.CoreCompileInputs.cache
+C:\Users\Isaiah\Desktop\C#2\EmployeePay\obj\Debug\EmployeePay.dll
+C:\Users\Isaiah\Desktop\C#2\EmployeePay\obj\Debug\EmployeePay.pdb
